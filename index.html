@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tech for Climate</title>
+        <link rel="stylesheet" href="style.css">
+
+        <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+/>
+    </head>
+
+    <body>
+        <header>
+            <h1>🌎 Sistema de Monitoramento e Alertas Climáticos</h1>
+        </header>
+
+        <main>
+            <section class="clima">
+                <h2>⛈ Condições atuais</h2>
+                <p>📍 Itaperuçu</p>
+                <p class="temperatura" id="temperatura">--°C</p>
+                <p class="condicao" id="condicao">Carregando...</p>
+                <div class="dados-clima">
+                    <div>
+                        <p>💧 Chuva</p>
+                        <strong id="chuva">-- mm</strong>
+                    </div>
+
+                    <div>
+                        <p>💨 Vento </p>
+                        <strong id="vento">-- km/h</strong>
+                    </div>
+
+                    <div>
+                        <p>💦 Umidade</p>
+                        <strong id="umidade">--%</strong>
+                    </div>
+                </div>
+            </section>
+
+           <section class="alerta">
+                <h2>🚨 Alerta</h2>
+
+                <p id="textoAlerta">
+                    Verificando as condições da região...
+                </p>
+
+                <strong id="nivelAlerta">
+                    ⏳ Aguarde...
+                </strong>
+            </section>
+
+            <section class="ocorrencias">
+                <h2>📍 Ocorrências próximas</h2>
+
+                <div id="ocorrencias-proximas">
+                    <p>Carregando ocorrências...</p>
+                </div>
+            </section>
+
+            <section class="mapa"> <!-- Área reservada para o mapa -->
+                
+                <h2>🗺️ Mapa de ocorrências</h2> <!-- Título do mapa -->
+
+                <div id="mapa" class="mapa-container"></div>
+
+            </section>
+
+            <section class="lista-ocorrencias">
+                <h2>Ocorrências registradas</h2>
+
+                <div id="ocorrencias-container">
+                    <p>Carregando ocorrências...</p>
+                </div>
+            </section>
+
+            <section class="situacao">
+
+                <h2>📊 Situação da região</h2>
+
+                <div class="indicador">
+                    <strong id="totalOcorrencias">0</strong>
+                    <p>Ocorrências registradas</p>
+                </div>
+
+                <div class="indicador">
+                    <strong id="ruasAfetadas">0</strong>
+                    <p>Regiões afetadas</p>
+                </div>
+
+                <div class="indicador">
+                    <strong id="nivelRisco">-</strong>
+                    <p>Nível de risco</p>
+                </div>
+
+            </section>
+
+            <section class="resultados">
+                <h2>📈 Ocorrências por nível</h2>
+
+                <div class="grafico">
+
+                    <div class="barra">
+                        <span class="nome-nivel">Baixo</span>
+
+                        <div class="barra-fundo">
+                            <div id="barraBaixo" class="barra-preenchida"></div>
+                        </div>
+
+                        <strong id="quantidadeBaixo">0</strong>
+                    </div>
+
+                    <div class="barra">
+                        <span class="nome-nivel">Médio</span>
+
+                        <div class="barra-fundo">
+                            <div id="barraMedio" class="barra-preenchida"></div>
+                        </div>
+
+                        <strong id="quantidadeMedio">0</strong>
+                    </div>
+
+                    <div class="barra">
+                        <span class="nome-nivel">Alto</span>
+
+                        <div class="barra-fundo">
+                            <div id="barraAlto" class="barra-preenchida"></div>
+                        </div>
+
+                        <strong id="quantidadeAlto">0</strong>
+                    </div>
+
+                </div>
+            </section>
+
+                <section class="registro">
+                    <h2>🚨 Registrar ocorrência</h2>
+
+                    <p>Informe o que está acontecendo na região.</p>
+
+                    <form>
+
+                        <label for="tipo">Tipo do problema:</label>
+                        <select id="tipo" name="tipo">
+                            <option value="">Selecione</option>
+                            <option value="alagamento">🌊 Alagamento</option>
+                            <option value="arvore">🌳 Árvore caída</option>
+                            <option value="deslizamento">⛰️ Deslizamento</option>
+                            <option value="outro">⚠️ Outro</option>
+                        </select>
+
+                        <label for="nivel">Nível:</label>
+                        <select id="nivel" name="nivel">
+                            <option value="">Selecione</option>
+                            <option value="baixo">Baixo</option>
+                            <option value="medio">Medio</option>
+                            <option value="alto">Alto</option>
+                        </select>
+                    
+                        <label for="tipoRua">Tipo da rua:</label>
+                        <select id="tipoRua" name="tipoRua">
+                            <option value="">Selecione</option>
+                            <option value="asfalto">🛣️ Asfalto</option>
+                            <option value="chao">🟤 Chão</option>
+                        </select>
+
+                        <label for="statusPassagem">Situação da passagem:</label>
+                        <select id="statusPassagem" name="statusPassagem">
+                            <option value="">Selecione</option>
+                            <option value="livre">🟢 Passagem livre</option>
+                            <option value="dificuldade">🟡 Passagem com dificuldade</option>
+                            <option value="nao-passa">🔴 Não passa</option>
+                        </select>
+
+                        <label for="cidade">Cidade:</label>
+
+                        <select id="cidade" name="cidade">
+                            <option value="Itaperuçu">Itaperuçu</option>
+                            <option value="Rio Branco do Sul">Rio Branco do Sul</option>
+                        </select>
+
+                        <label for="local">Bairro ou rua:</label>
+
+                        <input
+                            type="text"
+                            id="local"
+                            name="local"
+                            placeholder="Digite o nome da rua ou bairro">
+
+                        <button type="submit">Registrar ocorrência</button>
+
+                        <div class="localizacao">
+                            <button type="button" id="btnLocalizacao">
+                                📍 Usar minha localização
+                            </button>
+
+                            <p id="localizacaoTexto">Localização não informada</p>
+                        </div>
+
+
+                    </form>    
+                </section>
+
+            </section>
+        </main>
+        <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+        <script src="script.js"></script>
+    </body>
+
+</html>
